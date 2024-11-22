@@ -1,0 +1,23 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.tesseract.mod'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compileOnly project(":")
+    compileOnly files("libs/game-lib.jar")
+}
+
+jar {
+    manifest {
+        attributes(
+                'Hook-Container-Class': 'cn.tesseract.mod.HookClass'
+        )
+    }
+}

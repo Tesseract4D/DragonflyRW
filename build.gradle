@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    id 'com.gradleup.shadow' version '8.3.5'
+}
+
+group = 'cn.tesseract.dragonfly'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    gradlePluginPortal()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'org.ow2.asm:asm:9.7.1'
+    implementation 'org.ow2.asm:asm-commons:9.7.1'
+    implementation 'org.ow2.asm:asm-tree:9.7.1'
+    implementation 'commons-io:commons-io:2.17.0'
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'cn.tesseract.dragonfly.Dragonfly'
+        )
+    }
+}
+
+var targetPath = "libs/game-lib.jar"
+//var outPath = "libs/out/game-lib.jar"
+var outPath = "D:\\Rusted Warfare\\game-lib.jar"
+
+tasks.register('runDragonfly', Exec) {
+    dependsOn ':mod:build'
+    //dependsOn ':target:build'
+    commandLine 'java', '-jar', 'build/libs/dragonfly-1.0-SNAPSHOT-all.jar',
+            "--targetPath ${targetPath}",
+            "--outPath ${outPath}",
+            "--modPath mod/build/libs/mod-1.0-SNAPSHOT.jar"
+}
+
+tasks.register('runModded', Exec) {
+    commandLine 'java', '-Dfile.encoding=UTF-8', '-jar', 'target/build/libs/mod_target-1.0-SNAPSHOT.jar'
+}
+
+shadowJar.finalizedBy runDragonfly
+//runDragonfly.finalizedBy runModded
+
+test {
+    useJUnitPlatform()
+}
