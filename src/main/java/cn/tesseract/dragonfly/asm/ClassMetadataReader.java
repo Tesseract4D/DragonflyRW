@@ -1,6 +1,5 @@
 package cn.tesseract.dragonfly.asm;
 
-import cn.tesseract.dragonfly.Dragonfly;
 import org.apache.commons.io.IOUtils;
 import org.objectweb.asm.*;
 

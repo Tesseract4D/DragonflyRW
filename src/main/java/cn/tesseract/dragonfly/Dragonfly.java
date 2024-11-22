@@ -22,10 +22,6 @@ public class Dragonfly {
     public static HookClassTransformer classTransformer = new HookClassTransformer();
     public static File workDir = new File(System.getProperty("user.dir"));
 
-    static {
-
-    }
-
     public static void main(String[] args) throws IOException {
         File target = null, mod = null, out = null;
         for (String s : args) {
@@ -34,7 +30,10 @@ public class Dragonfly {
             if (i != -1 && i < t.length() - 1) {
                 String a = s.substring(0, i), b = s.substring(i + 1);
                 if (a.equals("--targetPath")) {
-                    target = new File(workDir, b);
+                    if (b.indexOf(':') == -1)
+                        target = new File(workDir, b);
+                    else
+                        target = new File(b);
                 } else if (a.equals("--modPath")) {
                     mod = new File(workDir, b);
                 } else if (a.equals("--outPath")) {
@@ -98,6 +97,10 @@ public class Dragonfly {
                 if (hookContainers.contains(className)) {
                     classTransformer.registerHookContainer(data);
                 } else {
+                    ClassReader cr = new ClassReader(data);
+                    ClassWriter cw = new ClassWriter(0);
+                    cr.accept(new ModifierKiller(cw), 0);
+                    data = cw.toByteArray();
                     data = classTransformer.transform(className, data);
                 }
             }

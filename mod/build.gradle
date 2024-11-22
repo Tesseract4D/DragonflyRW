@@ -11,7 +11,7 @@ repositories {
 
 dependencies {
     compileOnly project(":")
-    compileOnly files("libs/game-lib.jar")
+    implementation files("libs/classes.bak.jar")
 }
 
 jar {

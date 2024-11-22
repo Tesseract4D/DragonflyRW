@@ -12,8 +12,6 @@ repositories {
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation 'org.ow2.asm:asm:9.7.1'
     implementation 'org.ow2.asm:asm-commons:9.7.1'
     implementation 'org.ow2.asm:asm-tree:9.7.1'
@@ -28,13 +26,13 @@ jar {
     }
 }
 
-var targetPath = "libs/game-lib.jar"
-//var outPath = "libs/out/game-lib.jar"
-var outPath = "D:\\Rusted Warfare\\game-lib.jar"
+var targetPath = "mod/libs/classes.bak.jar"
+var outPath = "mod/libs/out/classes.jar"
+//var targetPath = "D:\\Rusted Warfare\\game-lib.jar.bak"
+//var outPath = "D:\\Rusted Warfare\\game-lib.jar"
 
 tasks.register('runDragonfly', Exec) {
     dependsOn ':mod:build'
-    //dependsOn ':target:build'
     commandLine 'java', '-jar', 'build/libs/dragonfly-1.0-SNAPSHOT-all.jar',
             "--targetPath ${targetPath}",
             "--outPath ${outPath}",
@@ -47,7 +45,3 @@ tasks.register('runModded', Exec) {
 
 shadowJar.finalizedBy runDragonfly
 //runDragonfly.finalizedBy runModded
-
-test {
-    useJUnitPlatform()
-}
