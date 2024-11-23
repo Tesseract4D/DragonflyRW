@@ -1,28 +1,13 @@
 package cn.tesseract.mod;
 
-import cn.tesseract.dragonfly.asm.Hook;
-import com.corrodinggames.rts.java.Main;
-
-import java.io.IOException;
-import java.util.logging.*;
-
 public class HookClass {
-    public static Logger log = Logger.getLogger(HookClass.class.getName());
-
-    static {
-        try {
-            Handler handler = new FileHandler("dragonfly.log");
-            Formatter formatter = new Formatter() {
-                @Override
-                public String format(LogRecord record) {
-                    return record.getMessage() + "\n";
-                }
-            };
-
-            handler.setFormatter(formatter);
-            log.addHandler(handler);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+/*
+    @Hook
+    public static void b(class_1101 c, class_1054 class_1054Var, class_315 class_315Var, String str, String str2) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
+        class_1101.t
+        Method m = class_1101.class.getDeclaredMethod("a", String.class, class_1054.class);
+        m.setAccessible(true);
+        m.invoke(c, str2, class_1054Var);
     }
+*/
 }

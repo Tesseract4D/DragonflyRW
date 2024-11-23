@@ -97,10 +97,6 @@ public class Dragonfly {
                 if (hookContainers.contains(className)) {
                     classTransformer.registerHookContainer(data);
                 } else {
-                    ClassReader cr = new ClassReader(data);
-                    ClassWriter cw = new ClassWriter(0);
-                    cr.accept(new ModifierKiller(cw), 0);
-                    data = cw.toByteArray();
                     data = classTransformer.transform(className, data);
                 }
             }

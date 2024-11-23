@@ -27,7 +27,7 @@ jar {
 }
 
 var targetPath = "mod/libs/classes.bak.jar"
-var outPath = "mod/libs/out/classes.jar"
+var outPath = "mod/libs/classes.jar"
 //var targetPath = "D:\\Rusted Warfare\\game-lib.jar.bak"
 //var outPath = "D:\\Rusted Warfare\\game-lib.jar"
 
