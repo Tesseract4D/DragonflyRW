@@ -1,12 +1,14 @@
 package cn.tesseract.dragonfly;
 
 import cn.tesseract.dragonfly.asm.HookClassTransformer;
+import com.android.tools.r8.D8;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 
+import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -20,44 +22,43 @@ import java.util.zip.ZipInputStream;
 
 public class Dragonfly {
     public static HookClassTransformer classTransformer = new HookClassTransformer();
-    public static File workDir = new File(System.getProperty("user.dir"));
+    public static String dir = System.getProperty("user.dir");
+    public static File workDir = new File(dir);
 
-    public static void main(String[] args) throws IOException {
-        File target = null, mod = null, out = null;
-        for (String s : args) {
-            String t = s.trim();
-            int i = t.indexOf(' ');
-            if (i != -1 && i < t.length() - 1) {
-                String a = s.substring(0, i), b = s.substring(i + 1);
-                if (a.equals("--targetPath")) {
-                    if (b.indexOf(':') == -1)
-                        target = new File(workDir, b);
-                    else
-                        target = new File(b);
-                } else if (a.equals("--modPath")) {
-                    mod = new File(workDir, b);
-                } else if (a.equals("--outPath")) {
-                    if (b.indexOf(':') == -1)
-                        out = new File(workDir, b);
-                    else
-                        out = new File(b);
-                }
-            }
-        }
-        if (target == null || !target.exists()) {
-            System.out.println("Target not set or not exists!");
-            return;
-        }
-        if (mod == null || !mod.exists()) {
-            System.out.println("Mod not set or not exists!");
-            return;
-        }
-        if (out == null) {
-            out = new File(target.getParentFile(), "mod_" + target.getName());
-        }
+    public static void main(String[] args) throws IOException, InterruptedException {
+
+        File apkFile = new File(workDir, "mod/libs/base.apk"),
+                dexFile = new File(workDir, "mod/libs/classes.bak.dex"),
+                target = new File(workDir, "mod/libs/classes.bak.jar"),
+                mod = new File(workDir, "mod/build/libs/mod-1.0-SNAPSHOT.jar"),
+                out = new File(workDir, "mod/libs/classes.jar"),
+                dexOut = new File(workDir, "mod/libs/classes.dex");
+
         if (out.exists())
             out.delete();
         out.createNewFile();
+
+        /*
+        if (!dexFile.exists())
+            try (ZipInputStream apk = new ZipInputStream(Files.newInputStream(apkFile.toPath()));
+                 BufferedOutputStream dex = new BufferedOutputStream(Files.newOutputStream(dexFile.toPath()))) {
+                apk.getNextEntry();
+
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = apk.read(buffer)) != -1) {
+                    dex.write(buffer, 0, bytesRead);
+                }
+            }
+
+        String cmd =
+                dir + "\\dex-tools\\d2j-dex2jar.bat " +
+                        dexFile.toPath() +
+                        " -o " + target.toPath();
+        Runtime.getRuntime().exec(cmd).waitFor();
+         */
+
+
         try (JarOutputStream newJar = new JarOutputStream(Files.newOutputStream(out.toPath()))) {
             ZipInputStream oldJar = new ZipInputStream(Files.newInputStream(target.toPath()));
             ZipInputStream modJar = new ZipInputStream(Files.newInputStream(mod.toPath()));
@@ -66,6 +67,8 @@ public class Dragonfly {
             mergeJar(newJar, modJar, existingEntries, hookContainers, false);
             mergeJar(newJar, oldJar, existingEntries, hookContainers, true);
         }
+
+        D8.main(new String[]{out.toPath().toString(), "--min-api", "28", "--output", dexOut.getParent()});
     }
 
     public static void mergeJar(JarOutputStream newJar, ZipInputStream oldJar, Set<String> existingEntries, Set<String> hookContainers, boolean isTarget) throws IOException {

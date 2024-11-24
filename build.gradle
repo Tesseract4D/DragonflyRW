@@ -9,6 +9,9 @@ version = '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
     gradlePluginPortal()
+    maven {
+        url = "https://dl.google.com/dl/android/maven2/"
+    }
 }
 
 dependencies {
@@ -16,6 +19,7 @@ dependencies {
     implementation 'org.ow2.asm:asm-commons:9.7.1'
     implementation 'org.ow2.asm:asm-tree:9.7.1'
     implementation 'commons-io:commons-io:2.17.0'
+    implementation 'com.android.tools:r8:8.5.35'
 }
 
 jar {
@@ -26,22 +30,9 @@ jar {
     }
 }
 
-var targetPath = "mod/libs/classes.bak.jar"
-var outPath = "mod/libs/classes.jar"
-//var targetPath = "D:\\Rusted Warfare\\game-lib.jar.bak"
-//var outPath = "D:\\Rusted Warfare\\game-lib.jar"
-
-tasks.register('runDragonfly', Exec) {
+tasks.register('run', Exec) {
     dependsOn ':mod:build'
-    commandLine 'java', '-jar', 'build/libs/dragonfly-1.0-SNAPSHOT-all.jar',
-            "--targetPath ${targetPath}",
-            "--outPath ${outPath}",
-            "--modPath mod/build/libs/mod-1.0-SNAPSHOT.jar"
+    commandLine 'java', '-jar', 'build/libs/dragonfly-1.0-SNAPSHOT-all.jar'
 }
 
-tasks.register('runModded', Exec) {
-    commandLine 'java', '-Dfile.encoding=UTF-8', '-jar', 'target/build/libs/mod_target-1.0-SNAPSHOT.jar'
-}
-
-shadowJar.finalizedBy runDragonfly
-//runDragonfly.finalizedBy runModded
+shadowJar.finalizedBy run
