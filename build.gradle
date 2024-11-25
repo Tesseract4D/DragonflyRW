@@ -41,10 +41,16 @@ tasks.register('buildAPK', Exec) {
 }
 
 tasks.register('signAPK', Exec) {
-    dependsOn ':buildAPK'
     commandLine 'java', '-jar', 'D:\\build-tools\\34.0.0\\lib\\apksigner.jar', 'sign', '--ks', 'dragonfly.jks', '--ks-pass', 'pass:tesseract', '--key-pass', 'pass:tesseract', 'base.apk'
     workingDir 'mod/libs'
 }
 
+tasks.register('installAPK', Exec) {
+    dependsOn ':signAPK'
+    dependsOn ':buildAPK'
+    commandLine 'D:\\platform-tools\\adb.exe', 'install', '-d', 'base.apk'
+    workingDir 'mod/libs'
+}
+
 shadowJar.finalizedBy run
-run.finalizedBy signAPK
+run.finalizedBy installAPK

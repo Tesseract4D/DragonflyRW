@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
+import java.util.jar.Manifest;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -58,55 +59,9 @@ public class Dragonfly {
         while ((entry = oldJar.getNextEntry()) != null) {
             String name = entry.getName();
             if (!isTarget && name.equals("META-INF/MANIFEST.MF")) {
-                String[] mfs = new String(readEntryBytes(oldJar)).split("\n");
-                for (String mf : mfs) {
-                    String s = mf.trim();
-                    int i = s.indexOf(':');
-                    if (i != -1 && i < s.length() - 1) {
-                        String key = s.substring(0, i).trim();
-                        String value = s.substring(i + 1).trim();
-                        if (key.equals("Hook-Container-Class"))
-                            hookContainers.add(value);
-                    }
-                }
-                continue;
-            }
-            if (existingEntries.contains(name)) {
-                continue;
-            }
-            existingEntries.add(name);
-            newJar.putNextEntry(new JarEntry(name));
-            byte[] data = readEntryBytes(oldJar);
-            if (name.endsWith(".class")) {
-                String className = name.substring(0, name.length() - 6).replace('/', '.');
-                if (hookContainers.contains(className)) {
-                    classTransformer.registerHookContainer(data);
-                } else {
-                    data = classTransformer.transform(className, data);
-                }
-            }
-            newJar.write(data);
-
-            newJar.closeEntry();
-        }
-    }
-
-    public static void mergeA(JarOutputStream newJar, ZipInputStream oldJar, Set<String> existingEntries, Set<String> hookContainers, boolean isTarget) throws IOException {
-        ZipEntry entry;
-        while ((entry = oldJar.getNextEntry()) != null) {
-            String name = entry.getName();
-            if (!isTarget && name.equals("META-INF/MANIFEST.MF")) {
-                String[] mfs = new String(readEntryBytes(oldJar)).split("\n");
-                for (String mf : mfs) {
-                    String s = mf.trim();
-                    int i = s.indexOf(':');
-                    if (i != -1 && i < s.length() - 1) {
-                        String key = s.substring(0, i).trim();
-                        String value = s.substring(i + 1).trim();
-                        if (key.equals("Hook-Container-Class"))
-                            hookContainers.addAll(List.of(value.split(",")));
-                    }
-                }
+                Manifest m = new Manifest();
+                m.read(oldJar);
+                hookContainers.addAll(List.of(m.getMainAttributes().getValue("Hook-Container-Class").split(",")));
                 continue;
             }
             if (existingEntries.contains(name)) {
