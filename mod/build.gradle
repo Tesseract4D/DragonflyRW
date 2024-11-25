@@ -12,13 +12,14 @@ repositories {
 dependencies {
     compileOnly project(":")
     compileOnly project(":shadow")
+    implementation files("libs/android.jar")
     implementation files("libs/classes.bak.jar")
 }
 
 jar {
     manifest {
         attributes(
-                'Hook-Container-Class': 'cn.tesseract.dragonfly.CommonHooks,cn.tesseract.dragonfly.ColorHooks'
+                'Hook-Container-Class': 'cn.tesseract.dragonfly.CommonHooks,cn.tesseract.dragonfly.ColorHooks,cn.tesseract.dragonfly.TestHooks'
         )
     }
 }
