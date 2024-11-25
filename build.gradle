@@ -35,4 +35,16 @@ tasks.register('run', Exec) {
     commandLine 'java', '-jar', 'build/libs/dragonfly-1.0-SNAPSHOT-all.jar'
 }
 
+tasks.register('buildAPK', Exec) {
+    commandLine 'D:\\build-tools\\34.0.0\\aapt.exe', 'a', 'base.apk', 'classes.dex'
+    workingDir 'mod/libs'
+}
+
+tasks.register('signAPK', Exec) {
+    dependsOn ':buildAPK'
+    commandLine 'java', '-jar', 'D:\\build-tools\\34.0.0\\lib\\apksigner.jar', 'sign', '--ks', 'dragonfly.jks', '--ks-pass', 'pass:tesseract', '--key-pass', 'pass:tesseract', 'base.apk'
+    workingDir 'mod/libs'
+}
+
 shadowJar.finalizedBy run
+run.finalizedBy signAPK

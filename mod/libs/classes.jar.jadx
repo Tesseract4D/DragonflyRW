@@ -1,0 +1,127 @@
+{
+  "projectVersion": 1,
+  "files": [
+    "classes.jar"
+  ],
+  "treeExpansions": [
+    [
+      "文件",
+      "输出",
+      "classes.jar"
+    ],
+    [
+      "源代码",
+      "classes.jar"
+    ],
+    [
+      "com.corrodinggames.rts.ally",
+      "源代码",
+      "classes.jar"
+    ],
+    [
+      "appFramework",
+      "com.corrodinggames.rts.ally",
+      "源代码",
+      "classes.jar"
+    ],
+    [
+      "com.corrodinggames.rts.ally.appFramework.MainMenuActivity",
+      "appFramework",
+      "com.corrodinggames.rts.ally",
+      "源代码",
+      "classes.jar"
+    ],
+    [
+      "cn.tesseract.dragonfly",
+      "源代码",
+      "classes.jar"
+    ],
+    [
+      "cn.tesseract.dragonfly.Hooks",
+      "cn.tesseract.dragonfly",
+      "源代码",
+      "classes.jar"
+    ]
+  ],
+  "codeData": {
+    "comments": [],
+    "renames": []
+  },
+  "openTabs": [
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.gameFramework.class_340",
+      "subPath": "java",
+      "caret": 2658,
+      "view": {
+        "x": 0,
+        "y": 769
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.game.class_315",
+      "subPath": "java",
+      "caret": 38579,
+      "view": {
+        "x": 0,
+        "y": 18423
+      },
+      "active": true
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.gameFramework.f.class_999",
+      "subPath": "java",
+      "caret": 1195,
+      "view": {
+        "x": 0,
+        "y": 450
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.game.units.b.class_396",
+      "subPath": "java",
+      "caret": 1668,
+      "view": {
+        "x": 0,
+        "y": 229
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.gameFramework.m.class_1229",
+      "subPath": "java",
+      "caret": 497,
+      "view": {
+        "x": 0,
+        "y": 0
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.game.units.e.class_703",
+      "subPath": "java",
+      "caret": 1591,
+      "view": {
+        "x": 0,
+        "y": 90
+      },
+      "active": false
+    }
+  ],
+  "cacheDir": "C:\\Users\\DELL\\AppData\\Local\\skylot\\jadx\\cache\\projects\\classes-3cd57e41907cbba465208c753ac71c8c",
+  "enableLiveReload": false,
+  "searchHistory": [
+    "999",
+    "00ff00",
+    "green",
+    "crashes.txt"
+  ],
+  "pluginOptions": {}
+}

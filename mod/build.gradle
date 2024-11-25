@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-group = 'com.tesseract.mod'
+group = 'com.tesseract.dragonfly'
 version = '1.0-SNAPSHOT'
 
 repositories {
@@ -11,13 +11,14 @@ repositories {
 
 dependencies {
     compileOnly project(":")
+    compileOnly project(":shadow")
     implementation files("libs/classes.bak.jar")
 }
 
 jar {
     manifest {
         attributes(
-                'Hook-Container-Class': 'cn.tesseract.mod.HookClass'
+                'Hook-Container-Class': 'cn.tesseract.dragonfly.Hooks'
         )
     }
 }

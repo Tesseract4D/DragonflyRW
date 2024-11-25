@@ -1,6 +1,7 @@
 package cn.tesseract.dragonfly;
 
 import cn.tesseract.dragonfly.asm.HookClassTransformer;
+import com.android.tools.r8.D8;
 import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
@@ -12,12 +13,12 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import java.util.zip.ZipOutputStream;
 
 public class Dragonfly {
     public static HookClassTransformer classTransformer = new HookClassTransformer();
@@ -25,7 +26,6 @@ public class Dragonfly {
     public static File workDir = new File(dir);
 
     public static void main(String[] args) throws IOException, InterruptedException {
-
         File apkFile = new File(workDir, "mod/libs/base.bak.apk"),
                 apkOut = new File(workDir, "mod/libs/base.apk"),
                 target = new File(workDir, "mod/libs/classes.bak.jar"),
@@ -33,30 +33,11 @@ public class Dragonfly {
                 out = new File(workDir, "mod/libs/classes.jar"),
                 dexOut = new File(workDir, "mod/libs/classes.dex");
 
+        if (apkOut.exists())
+            apkOut.delete();
         if (out.exists())
             out.delete();
         out.createNewFile();
-
-        /*
-        if (!dexFile.exists())
-            try (ZipInputStream apk = new ZipInputStream(Files.newInputStream(apkFile.toPath()));
-                 BufferedOutputStream dex = new BufferedOutputStream(Files.newOutputStream(dexFile.toPath()))) {
-                apk.getNextEntry();
-
-                byte[] buffer = new byte[1024];
-                int bytesRead;
-                while ((bytesRead = apk.read(buffer)) != -1) {
-                    dex.write(buffer, 0, bytesRead);
-                }
-            }
-
-        String cmd =
-                dir + "\\dex-tools\\d2j-dex2jar.bat " +
-                        dexFile.toPath() +
-                        " -o " + target.toPath();
-        Runtime.getRuntime().exec(cmd).waitFor();
-         */
-
 
         try (JarOutputStream newJar = new JarOutputStream(Files.newOutputStream(out.toPath()))) {
             ZipInputStream oldJar = new ZipInputStream(Files.newInputStream(target.toPath()));
@@ -67,13 +48,9 @@ public class Dragonfly {
             mergeJar(newJar, oldJar, existingEntries, hookContainers, true);
         }
 
-        //D8.main(new String[]{out.toPath().toString(), "--min-api", "28", "--output", dexOut.getParent()});
+        D8.main(new String[]{out.toPath().toString(), "--min-api", "28", "--output", dexOut.getParent()});
 
-        ZipInputStream s = new ZipInputStream(Files.newInputStream(apkFile.toPath()));
-        System.out.println(s.getNextEntry());
-        System.out.println(s.getNextEntry());
-        System.out.println(s.getNextEntry());
-FileUtils.copyFile();
+        FileUtils.copyFile(apkFile, apkOut);
     }
 
     public static void mergeJar(JarOutputStream newJar, ZipInputStream oldJar, Set<String> existingEntries, Set<String> hookContainers, boolean isTarget) throws IOException {
@@ -127,7 +104,7 @@ FileUtils.copyFile();
                         String key = s.substring(0, i).trim();
                         String value = s.substring(i + 1).trim();
                         if (key.equals("Hook-Container-Class"))
-                            hookContainers.add(value);
+                            hookContainers.addAll(List.of(value.split(",")));
                     }
                 }
                 continue;
