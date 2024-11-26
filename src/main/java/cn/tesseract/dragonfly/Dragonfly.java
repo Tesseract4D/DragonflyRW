@@ -3,10 +3,7 @@ package cn.tesseract.dragonfly;
 import cn.tesseract.dragonfly.asm.HookClassTransformer;
 import com.android.tools.r8.D8;
 import org.apache.commons.io.FileUtils;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.*;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -75,6 +72,24 @@ public class Dragonfly {
                 if (hookContainers.contains(className)) {
                     classTransformer.registerHookContainer(data);
                 } else {
+                    ClassReader cr = new ClassReader(data);
+                    ClassWriter cw = new ClassWriter(0);
+                    cr.accept(new ClassVisitor(Opcodes.ASM5, cw) {
+                        @Override
+                        public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+                            return new MethodVisitor(Opcodes.ASM5, super.visitMethod(access, name, descriptor, signature, exceptions)) {
+                                @Override
+                                public void visitLdcInsn(Object value) {
+                                    if (value.equals("Set Debug Options")) {
+                                        super.visitLdcInsn("บบปฏ");
+                                        System.out.println(value);
+                                    } else
+                                        super.visitLdcInsn(value);
+                                }
+                            };
+                        }
+                    }, 0);
+                    data = cw.toByteArray();
                     data = classTransformer.transform(className, data);
                 }
             }

@@ -147,10 +147,10 @@
       "type": "class",
       "tabPath": "com.corrodinggames.rts.ally.game.class_315",
       "subPath": "java",
-      "caret": 76738,
+      "caret": 2782,
       "view": {
         "x": 0,
-        "y": 29800
+        "y": 315
       },
       "active": false
     },
@@ -196,12 +196,47 @@
         "x": 0,
         "y": 43160
       },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.appFramework.GameViewNonSurface",
+      "subPath": "java",
+      "caret": 7700,
+      "view": {
+        "x": 0,
+        "y": 3025
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.gameFramework.m.class_1169",
+      "subPath": "java",
+      "caret": 34326,
+      "view": {
+        "x": 0,
+        "y": 10452
+      },
       "active": true
+    },
+    {
+      "type": "class",
+      "tabPath": "cn.tesseract.dragonfly.CommonHooks",
+      "subPath": "java",
+      "caret": 2604,
+      "view": {
+        "x": 0,
+        "y": 574
+      },
+      "active": false
     }
   ],
   "cacheDir": "C:\\Users\\DELL\\AppData\\Local\\skylot\\jadx\\cache\\projects\\classes-3cd57e41907cbba465208c753ac71c8c",
   "enableLiveReload": false,
   "searchHistory": [
+    "1195",
+    "nonsur",
     "teamlock",
     "315",
     "finishQ",

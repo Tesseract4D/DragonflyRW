@@ -1,5 +1,6 @@
 package cn.tesseract.dragonfly;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.corrodinggames.rts.ally.gameFramework.f.class_960;
 import com.corrodinggames.rts.ally.gameFramework.h.class_993;
 import com.corrodinggames.rts.ally.gameFramework.j.class_1054;
 import com.corrodinggames.rts.ally.gameFramework.j.class_1101;
+import com.corrodinggames.rts.ally.gameFramework.m.class_1224;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -54,6 +56,15 @@ public class CommonHooks {
     public static void b(class_1101 c, class_1054 class_1054Var, class_315 class_315Var, String str, String str2) throws InvocationTargetException, IllegalAccessException, NoSuchMethodException {
 
     }
+
+    @Hook(targetClass = "com.corrodinggames.rts.ally.gameFramework.m.class_1195", returnCondition = ReturnCondition.ALWAYS)
+    public static void a(Object c, Canvas canvas, class_1224 class_1224Var) {
+        try {
+            canvas.restore();
+        } catch (IllegalStateException ignored) {
+        }
+    }
+
 
     @Hook(returnCondition = ReturnCondition.ALWAYS)
     public static void setupSpawnPositionDropDown(MultiplayerBattleroomActivity c, Spinner spinner, boolean z) {
