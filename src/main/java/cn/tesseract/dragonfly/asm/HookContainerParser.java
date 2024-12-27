@@ -30,23 +30,23 @@ public class HookContainerParser {
 
     private static final String HOOK_DESC = Type.getDescriptor(Hook.class);
     private static final String LOCAL_DESC = Type.getDescriptor(Hook.LocalVariable.class);
-    private static final String RETURN_DESC = Type.getDescriptor(ReturnValue.class);
+    private static final String RETURN_DESC = Type.getDescriptor(Hook.ReturnValue.class);
 
     public HookContainerParser(HookClassTransformer transformer) {
         this.transformer = transformer;
     }
 
-    public void parseHooks(String className) {
+    protected void parseHooks(String className) {
         transformer.logger.debug("Parsing hooks container " + className);
         try {
-            ClassMetadataReader.acceptVisitor(className, new HookClassVisitor());
+            transformer.classMetadataReader.acceptVisitor(className, new HookClassVisitor());
         } catch (IOException e) {
             transformer.logger.severe("Can not parse hooks container " + className, e);
         }
     }
 
-    public void parseHooks(byte[] data) {
-        ClassMetadataReader.acceptVisitor(data, new HookClassVisitor());
+    protected void parseHooks(byte[] classData) {
+        transformer.classMetadataReader.acceptVisitor(classData, new HookClassVisitor());
     }
 
     private void invalidHook(String message) {
@@ -218,7 +218,7 @@ public class HookContainerParser {
         @Override
         public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
             if (HOOK_DESC.equals(desc)) {
-                annotationValues = new HashMap<String, Object>();
+                annotationValues = new HashMap<>();
                 inHookAnnotation = true;
             }
             return new HookAnnotationVisitor();

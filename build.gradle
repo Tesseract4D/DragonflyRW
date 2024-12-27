@@ -19,37 +19,44 @@ dependencies {
     implementation 'org.ow2.asm:asm-commons:9.7.1'
     implementation 'org.ow2.asm:asm-tree:9.7.1'
     implementation 'commons-io:commons-io:2.17.0'
-    implementation 'com.android.tools:r8:8.5.35'
+    compileOnly files("libs/android.jar")
+    compileOnly files("libs/classes.bak.jar")
 }
 
 jar {
     manifest {
         attributes(
-                'Main-Class': 'cn.tesseract.dragonfly.Dragonfly'
+                'Main-Class': 'cn.tesseract.dragonfly.asm.Dragonfly'
         )
     }
 }
 
 tasks.register('run', Exec) {
-    dependsOn ':mod:build'
     commandLine 'java', '-jar', 'build/libs/dragonfly-1.0-SNAPSHOT-all.jar'
 }
 
+tasks.register('jar2dex', Exec) {
+    commandLine 'java', '-cp', 'D:\\build-tools\\34.0.0\\lib\\d8.jar', 'com.android.tools.r8.D8', 'classes.jar', "--min-api", "28"
+    workingDir 'libs'
+}
+
 tasks.register('buildAPK', Exec) {
+    dependsOn ':jar2dex'
     commandLine 'D:\\build-tools\\34.0.0\\aapt.exe', 'a', 'base.apk', 'classes.dex'
-    workingDir 'mod/libs'
+    workingDir 'libs'
 }
 
 tasks.register('signAPK', Exec) {
+    dependsOn ':buildAPK'
     commandLine 'java', '-jar', 'D:\\build-tools\\34.0.0\\lib\\apksigner.jar', 'sign', '--ks', 'dragonfly.jks', '--ks-pass', 'pass:tesseract', '--key-pass', 'pass:tesseract', 'base.apk'
-    workingDir 'mod/libs'
+    workingDir 'libs'
 }
+
 
 tasks.register('installAPK', Exec) {
     dependsOn ':signAPK'
-    dependsOn ':buildAPK'
     commandLine 'D:\\platform-tools\\adb.exe', 'install', '-d', 'base.apk'
-    workingDir 'mod/libs'
+    workingDir 'libs'
 }
 
 shadowJar.finalizedBy run

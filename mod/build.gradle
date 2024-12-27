@@ -19,7 +19,7 @@ dependencies {
 jar {
     manifest {
         attributes(
-                'Hook-Container-Class': 'cn.tesseract.dragonfly.CommonHooks,cn.tesseract.dragonfly.ColorHooks,cn.tesseract.dragonfly.TestHooks'
+                'Hook-Container-Class': 'cn.tesseract.dragonfly.hook.CommonHooks,cn.tesseract.dragonfly.hook.CommandHooks,cn.tesseract.dragonfly.hook.ColorHooks,cn.tesseract.dragonfly.TestHooks'
         )
     }
 }

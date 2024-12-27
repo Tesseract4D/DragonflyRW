@@ -1,7 +1,5 @@
 package cn.tesseract.dragonfly.asm;
 
-import cn.tesseract.dragonfly.Dragonfly;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

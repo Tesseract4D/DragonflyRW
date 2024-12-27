@@ -11,11 +11,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class HookClassTransformer{
+public class HookClassTransformer implements ClassFileTransformer {
 
     public HookLogger logger = new HookLogger.SystemOutLogger();
     public HashMap<String, List<AsmHook>> hooksMap = new HashMap<>();
-    private HookContainerParser containerParser = new HookContainerParser(this);
+    private final HookContainerParser containerParser = new HookContainerParser(this);
+    protected ClassMetadataReader classMetadataReader = new ClassMetadataReader();
 
     public void registerHook(AsmHook hook) {
         if (hooksMap.containsKey(hook.getTargetClassName())) {
@@ -30,8 +31,14 @@ public class HookClassTransformer{
     public void registerHookContainer(String className) {
         containerParser.parseHooks(className);
     }
-    public void registerHookContainer(byte[] data) {
-        containerParser.parseHooks(data);
+
+    public void registerHookContainer(byte[] classData) {
+        containerParser.parseHooks(classData);
+    }
+
+    @Override
+    public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
+        return transform(className.replace('/', '.'), classfileBuffer);
     }
 
     public byte[] transform(String className, byte[] bytecode) {
@@ -57,7 +64,10 @@ public class HookClassTransformer{
                 cr.accept(hooksWriter, java7 ? ClassReader.SKIP_FRAMES : ClassReader.EXPAND_FRAMES);
                 bytecode = cw.toByteArray();
                 for (AsmHook hook : hooksWriter.injectedHooks) {
-                    logger.debug("Patching method " + hook.getPatchedMethodName());
+                    if (hook.injected)
+                        logger.debug("Patching method " + hook.getPatchedMethodName());
+                    else
+                        logger.warning(hook + " not injected!");
                 }
                 hooks.removeAll(hooksWriter.injectedHooks);
             } catch (Exception e) {
@@ -104,6 +114,6 @@ public class HookClassTransformer{
      * @return ClassWriter, сохраняющий трансформированный класс
      */
     protected ClassWriter createClassWriter(int flags) {
-        return new SafeClassWriter(flags);
+        return new SafeClassWriter(classMetadataReader, flags);
     }
 }

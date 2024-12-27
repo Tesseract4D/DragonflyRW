@@ -1,6 +1,5 @@
 package cn.tesseract.dragonfly.asm;
 
-import cn.tesseract.dragonfly.Dragonfly;
 import org.objectweb.asm.*;
 
 import java.io.IOException;

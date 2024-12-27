@@ -15,31 +15,30 @@ import java.util.Collections;
  *
  */
 public class ClassMetadataReader {
-    public static Method m;
+    private static Method m;
 
     static {
         try {
             m = ClassLoader.class.getDeclaredMethod("findLoadedClass", String.class);
             m.setAccessible(true);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
         }
     }
 
-    public static byte[] getClassData(String className) throws IOException {
+    public byte[] getClassData(String className) throws IOException {
         String classResourceName = '/' + className.replace('.', '/') + ".class";
         return IOUtils.toByteArray(ClassMetadataReader.class.getResourceAsStream(classResourceName));
     }
 
-    public static void acceptVisitor(byte[] classData, ClassVisitor visitor) {
+    public void acceptVisitor(byte[] classData, ClassVisitor visitor) {
         new ClassReader(classData).accept(visitor, 0);
     }
 
-    public static void acceptVisitor(String className, ClassVisitor visitor) throws IOException {
+    public void acceptVisitor(String className, ClassVisitor visitor) throws IOException {
         acceptVisitor(getClassData(className), visitor);
     }
 
-    public static MethodReference findVirtualMethod(String owner, String name, String desc) {
+    public MethodReference findVirtualMethod(String owner, String name, String desc) {
         ArrayList<String> superClasses = getSuperClasses(owner);
         for (int i = superClasses.size() - 1; i > 0; i--) { // чекать текущий класс смысла нет
             String className = superClasses.get(i);
@@ -52,7 +51,7 @@ public class ClassMetadataReader {
         return null;
     }
 
-    public static MethodReference getMethodReference(String type, String methodName, String desc) {
+    private MethodReference getMethodReference(String type, String methodName, String desc) {
         try {
             return getMethodReferenceASM(type, methodName, desc);
         } catch (Exception e) {
@@ -60,7 +59,7 @@ public class ClassMetadataReader {
         }
     }
 
-    public static MethodReference getMethodReferenceASM(String type, String methodName, String desc) throws IOException {
+    protected MethodReference getMethodReferenceASM(String type, String methodName, String desc) throws IOException {
         FindMethodClassVisitor cv = new FindMethodClassVisitor(methodName, desc);
         acceptVisitor(type, cv);
         if (cv.found) {
@@ -69,7 +68,7 @@ public class ClassMetadataReader {
         return null;
     }
 
-    public static MethodReference getMethodReferenceReflect(String type, String methodName, String desc) {
+    protected MethodReference getMethodReferenceReflect(String type, String methodName, String desc) {
         Class loadedClass = getLoadedClass(type);
         if (loadedClass != null) {
             for (Method m : loadedClass.getDeclaredMethods()) {
@@ -81,7 +80,7 @@ public class ClassMetadataReader {
         return null;
     }
 
-    public static boolean checkSameMethod(String sourceName, String sourceDesc, String targetName, String targetDesc) {
+    protected boolean checkSameMethod(String sourceName, String sourceDesc, String targetName, String targetDesc) {
         return sourceName.equals(targetName) && sourceDesc.equals(targetDesc);
     }
 
@@ -89,7 +88,7 @@ public class ClassMetadataReader {
      * Возвращает суперклассы в порядке возрастающей конкретности (начиная с java/lang/Object
      * и заканчивая данным типом)
      */
-    public static ArrayList<String> getSuperClasses(String type) {
+    public ArrayList<String> getSuperClasses(String type) {
         ArrayList<String> superclasses = new ArrayList<String>(1);
         superclasses.add(type);
         while ((type = getSuperClass(type)) != null) {
@@ -99,7 +98,7 @@ public class ClassMetadataReader {
         return superclasses;
     }
 
-    public static Class getLoadedClass(String type) {
+    private Class getLoadedClass(String type) {
         if (m != null) {
             try {
                 ClassLoader classLoader = ClassMetadataReader.class.getClassLoader();
@@ -111,7 +110,7 @@ public class ClassMetadataReader {
         return null;
     }
 
-    public static String getSuperClass(String type) {
+    public String getSuperClass(String type) {
         try {
             return getSuperClassASM(type);
         } catch (Exception e) {
@@ -119,13 +118,13 @@ public class ClassMetadataReader {
         }
     }
 
-    public static String getSuperClassASM(String type) throws IOException {
+    protected String getSuperClassASM(String type) throws IOException {
         CheckSuperClassVisitor cv = new CheckSuperClassVisitor();
         acceptVisitor(type, cv);
         return cv.superClassName;
     }
 
-    public static String getSuperClassReflect(String type) {
+    protected String getSuperClassReflect(String type) {
         Class loadedClass = getLoadedClass(type);
         if (loadedClass != null) {
             if (loadedClass.getSuperclass() == null) return null;
@@ -134,7 +133,7 @@ public class ClassMetadataReader {
         return "java/lang/Object";
     }
 
-    public static class CheckSuperClassVisitor extends ClassVisitor {
+    private class CheckSuperClassVisitor extends ClassVisitor {
 
         String superClassName;
 
@@ -149,7 +148,7 @@ public class ClassMetadataReader {
         }
     }
 
-    public static class FindMethodClassVisitor extends ClassVisitor {
+    protected class FindMethodClassVisitor extends ClassVisitor {
 
         public String targetName;
         public String targetDesc;
@@ -163,7 +162,6 @@ public class ClassMetadataReader {
 
         @Override
         public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-            System.out.println("visiting " + name + "#" + desc);
             if ((access & Opcodes.ACC_PRIVATE) == 0 && checkSameMethod(name, desc, targetName, targetDesc)) {
                 found = true;
                 targetName = name;
@@ -191,10 +189,10 @@ public class ClassMetadataReader {
 
         @Override public String toString() {
             return "MethodReference{" +
-                    "owner='" + owner + '\'' +
-                    ", name='" + name + '\'' +
-                    ", desc='" + desc + '\'' +
-                    '}';
+                "owner='" + owner + '\'' +
+                ", name='" + name + '\'' +
+                ", desc='" + desc + '\'' +
+                '}';
         }
     }
 

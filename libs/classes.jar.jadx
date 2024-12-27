@@ -1,0 +1,194 @@
+{
+  "projectVersion": 1,
+  "files": [
+    "classes.jar"
+  ],
+  "treeExpansions": [
+    [
+      "文件",
+      "输出",
+      "classes.jar"
+    ],
+    [
+      "源代码",
+      "classes.jar"
+    ],
+    [
+      "com.corrodinggames.rts.ally",
+      "源代码",
+      "classes.jar"
+    ],
+    [
+      "cn.tesseract.dragonfly",
+      "源代码",
+      "classes.jar"
+    ],
+    [
+      "cn.tesseract.dragonfly.Hooks",
+      "cn.tesseract.dragonfly",
+      "源代码",
+      "classes.jar"
+    ],
+    [
+      "cn.tesseract.dragonfly.TestHooks",
+      "cn.tesseract.dragonfly",
+      "源代码",
+      "classes.jar"
+    ],
+    [
+      "cn.tesseract.dragonfly.CommonHooks",
+      "cn.tesseract.dragonfly",
+      "源代码",
+      "classes.jar"
+    ],
+    [
+      "cn.tesseract.dragonfly.ColorHooks",
+      "cn.tesseract.dragonfly",
+      "源代码",
+      "classes.jar"
+    ],
+    [
+      "gameFramework",
+      "com.corrodinggames.rts.ally",
+      "源代码",
+      "classes.jar"
+    ],
+    [
+      "com.corrodinggames.rts.ally.gameFramework.class_889",
+      "gameFramework",
+      "com.corrodinggames.rts.ally",
+      "源代码",
+      "classes.jar"
+    ]
+  ],
+  "codeData": {
+    "comments": [],
+    "renames": []
+  },
+  "openTabs": [
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.gameFramework.class_340",
+      "subPath": "java",
+      "caret": 3306,
+      "view": {
+        "x": 0,
+        "y": 1157
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.game.units.e.class_703",
+      "subPath": "java",
+      "caret": 1591,
+      "view": {
+        "x": 0,
+        "y": 90
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.gameFramework.f.class_1002",
+      "subPath": "java",
+      "caret": 0,
+      "view": {
+        "x": 0,
+        "y": 0
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.game.a.class_316",
+      "subPath": "java",
+      "caret": 1151,
+      "view": {
+        "x": 0,
+        "y": 0
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.game.units.d.class_648",
+      "subPath": "java",
+      "caret": 3147,
+      "view": {
+        "x": 0,
+        "y": 664
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.appFramework.class_193",
+      "subPath": "java",
+      "caret": 3887,
+      "view": {
+        "x": 0,
+        "y": 637
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.gameFramework.j.class_1101",
+      "subPath": "java",
+      "caret": 211914,
+      "view": {
+        "x": 0,
+        "y": 75154
+      },
+      "active": false
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.gameFramework.class_945",
+      "subPath": "java",
+      "caret": 16840,
+      "view": {
+        "x": 0,
+        "y": 6634
+      },
+      "active": true
+    },
+    {
+      "type": "class",
+      "tabPath": "com.corrodinggames.rts.ally.game.units.class_418",
+      "subPath": "java",
+      "caret": 227655,
+      "view": {
+        "x": 0,
+        "y": 83975
+      },
+      "active": false
+    }
+  ],
+  "cacheDir": "C:\\Users\\DELL\\AppData\\Local\\skylot\\jadx\\cache\\projects\\classes-3cd57e41907cbba465208c753ac71c8c",
+  "enableLiveReload": false,
+  "searchHistory": [
+    "surrender",
+    "200000",
+    "credits_",
+    "multi",
+    "endgame",
+    "1195",
+    "nonsur",
+    "teamlock",
+    "315",
+    "finishQ",
+    "noNukes",
+    "setupPlayerColorDropDown",
+    "class_648",
+    "select grou",
+    "653",
+    "purp",
+    "999",
+    "00ff00",
+    "green",
+    "crashes.txt"
+  ],
+  "pluginOptions": {}
+}
