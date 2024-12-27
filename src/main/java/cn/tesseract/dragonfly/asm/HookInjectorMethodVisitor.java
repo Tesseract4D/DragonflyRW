@@ -20,7 +20,7 @@ public abstract class HookInjectorMethodVisitor extends AdviceAdapter {
 
     protected HookInjectorMethodVisitor(MethodVisitor mv, int access, String name, String desc,
                                         AsmHook hook, HookInjectorClassVisitor cv) {
-        super(Opcodes.ASM5, mv, access, name, desc);
+        super(Opcodes.ASM9, mv, access, name, desc);
         this.hook = hook;
         this.cv = cv;
         isStatic = (access & Opcodes.ACC_STATIC) != 0;

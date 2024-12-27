@@ -18,7 +18,7 @@ public class HookInjectorClassVisitor extends ClassVisitor {
     String superName;
 
     public HookInjectorClassVisitor(HookClassTransformer transformer, ClassWriter cv, List<AsmHook> hooks) {
-        super(Opcodes.ASM5, cv);
+        super(Opcodes.ASM9, cv);
         this.hooks = hooks;
         this.transformer = transformer;
     }

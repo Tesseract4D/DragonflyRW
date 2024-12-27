@@ -15,16 +15,6 @@ import java.util.Collections;
  *
  */
 public class ClassMetadataReader {
-    private static Method m;
-
-    static {
-        try {
-            m = ClassLoader.class.getDeclaredMethod("findLoadedClass", String.class);
-            m.setAccessible(true);
-        } catch (Exception e) {
-        }
-    }
-
     public byte[] getClassData(String className) throws IOException {
         String classResourceName = '/' + className.replace('.', '/') + ".class";
         return IOUtils.toByteArray(ClassMetadataReader.class.getResourceAsStream(classResourceName));
@@ -99,14 +89,6 @@ public class ClassMetadataReader {
     }
 
     private Class getLoadedClass(String type) {
-        if (m != null) {
-            try {
-                ClassLoader classLoader = ClassMetadataReader.class.getClassLoader();
-                return (Class) m.invoke(classLoader, type.replace('/', '.'));
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
         return null;
     }
 
@@ -138,7 +120,7 @@ public class ClassMetadataReader {
         String superClassName;
 
         public CheckSuperClassVisitor() {
-            super(Opcodes.ASM5);
+            super(Opcodes.ASM9);
         }
 
         @Override
@@ -155,7 +137,7 @@ public class ClassMetadataReader {
         public boolean found;
 
         public FindMethodClassVisitor(String name, String desc) {
-            super(Opcodes.ASM5);
+            super(Opcodes.ASM9);
             this.targetName = name;
             this.targetDesc = desc;
         }

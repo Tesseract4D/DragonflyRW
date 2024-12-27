@@ -16,13 +16,13 @@ public class MiscHelper {
         String methodDesc = Type.getMethodDescriptor(Type.VOID_TYPE, argTypes);
         final String methodDescWithoutReturnType = methodDesc.substring(0, methodDesc.length() - 1);
 
-        ClassVisitor cv = new ClassVisitor(Opcodes.ASM5) {
+        ClassVisitor cv = new ClassVisitor(Opcodes.ASM9) {
 
             @Override
             public MethodVisitor visitMethod(final int acc, String name, String desc,
                                              String signature, String[] exceptions) {
                 if (methodName.equals(name) && desc.startsWith(methodDescWithoutReturnType)) {
-                    return new MethodVisitor(Opcodes.ASM5) {
+                    return new MethodVisitor(Opcodes.ASM9) {
                         @Override
                         public void visitLocalVariable(String name, String desc,
                                                        String signature, Label start, Label end, int index) {

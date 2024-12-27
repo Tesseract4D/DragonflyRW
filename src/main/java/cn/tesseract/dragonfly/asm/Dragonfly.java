@@ -55,7 +55,8 @@ public class Dragonfly {
             byte[] data = readEntryBytes(oldJar);
             if (name.endsWith(".class")) {
                 String className = name.substring(0, name.length() - 6).replace('/', '.');
-                if (className.endsWith("cn.tesseract.dragonfly.hook")) {
+                if (className.startsWith("cn.tesseract.dragonfly.hook")) {
+                    System.out.println(className);
                     classTransformer.registerHookContainer(data);
                 } else {
                     ClassReader cr = new ClassReader(data);
@@ -96,7 +97,7 @@ public class Dragonfly {
     public static void dumpClassFile(byte[] bytes) {
         final String[] className = new String[1];
         ClassReader cr = new ClassReader(bytes);
-        ClassVisitor cw = new ClassVisitor(Opcodes.ASM5, new ClassWriter(cr, 0)) {
+        ClassVisitor cw = new ClassVisitor(Opcodes.ASM9, new ClassWriter(cr, 0)) {
             @Override
             public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
                 className[0] = name;

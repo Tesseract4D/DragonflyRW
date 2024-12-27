@@ -20,7 +20,7 @@ dependencies {
     implementation 'org.ow2.asm:asm-tree:9.7.1'
     implementation 'commons-io:commons-io:2.17.0'
     compileOnly files("libs/android.jar")
-    compileOnly files("libs/classes.bak.jar")
+    compileOnly files("libs/bak/classes.jar")
 }
 
 jar {

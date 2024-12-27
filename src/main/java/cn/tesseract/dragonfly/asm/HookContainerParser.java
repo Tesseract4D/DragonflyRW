@@ -191,7 +191,7 @@ public class HookContainerParser {
 
     private class HookClassVisitor extends ClassVisitor {
         public HookClassVisitor() {
-            super(Opcodes.ASM5);
+            super(Opcodes.ASM9);
         }
 
         @Override
@@ -212,7 +212,7 @@ public class HookContainerParser {
     private class HookMethodVisitor extends MethodVisitor {
 
         public HookMethodVisitor() {
-            super(Opcodes.ASM5);
+            super(Opcodes.ASM9);
         }
 
         @Override
@@ -230,7 +230,7 @@ public class HookContainerParser {
                 parameterAnnotations.put(parameter, -1);
             }
             if (LOCAL_DESC.equals(desc)) {
-                return new AnnotationVisitor(Opcodes.ASM5) {
+                return new AnnotationVisitor(Opcodes.ASM9) {
                     @Override
                     public void visit(String name, Object value) {
                         parameterAnnotations.put(parameter, (Integer) value);
@@ -255,7 +255,7 @@ public class HookContainerParser {
     private class HookAnnotationVisitor extends AnnotationVisitor {
 
         public HookAnnotationVisitor() {
-            super(Opcodes.ASM5);
+            super(Opcodes.ASM9);
         }
 
         @Override
