@@ -11,7 +11,6 @@ import com.corrodinggames.rts.ally.game.class_315;
 import com.corrodinggames.rts.ally.gameFramework.j.class_1054;
 import com.corrodinggames.rts.ally.gameFramework.j.class_1101;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class CommandHook {
@@ -33,19 +32,29 @@ public class CommandHook {
             }
         });
         commands.put("in", new SingleDoubleCommand(1, true, "设置收入倍数") {
-            final MethodAccessor refreshServerInfo = new MethodAccessor(MultiplayerBattleroomActivity.class, "refreshServerInfo");
+            static final MethodAccessor refreshServerInfo = new MethodAccessor(MultiplayerBattleroomActivity.class, "refreshServerInfo");
 
             @Override
             public void processCommand(double n) {
                 RWHelper.getNetworkEngine().aA.h = (float) n;
                 refreshServerInfo.invoke(MultiplayerBattleroomActivity.lastLoaded);
                 RWHelper.sendSysMessage("收入倍率已设为 " + n + " ！");
+                RWHelper.sync();
             }
         });
         commands.put("sync", new CommandBase(0, true, "立刻同步") {
             @Override
             public void processCommand(class_315 sender, String[] args) {
                 RWHelper.sync();
+            }
+        });
+        commands.put("debug", new CommandBase(0, true, "调试指令") {
+
+            @Override
+            public void processCommand(class_315 sender, String[] args) {
+                for (Object o : RWHelper.getNetworkEngine().aO) {
+                    RWHelper.sendMessage((class_1054) o, "[提示]", "测试");
+                }
             }
         });
     }
@@ -64,17 +73,5 @@ public class CommandHook {
                     cmd.processCommand(class_315Var, arr.length == 1 ? new String[0] : arr[1].split(" ", cmd.args));
             }
         }
-    }
-
-    public static ArrayList<String> split(String str, char c) {
-        ArrayList<String> strs = new ArrayList<>();
-        int l = str.length();
-        int j = 0;
-        for (int i = 0; i <= l; i++)
-            if (i == l || str.charAt(i) == c) {
-                strs.add(str.substring(j, i));
-                j = i + 1;
-            }
-        return strs;
     }
 }

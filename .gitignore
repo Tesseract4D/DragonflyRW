@@ -1,7 +1,7 @@
 .gradle
 build/
 !gradle/wrapper/gradle-wrapper.jar
-!dragonfly.log
+dragonfly.log
 !**/src/main/**/build/
 !**/src/test/**/build/
 
