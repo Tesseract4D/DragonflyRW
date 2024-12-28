@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding" native2AsciiForPropertiesFiles="true" defaultCharsetForPropertiesFiles="GBK">
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tesseract/dragonfly/asm/AsmHook.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tesseract/dragonfly/asm/ClassMetadataReader.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tesseract/dragonfly/asm/Hook.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tesseract/dragonfly/asm/HookClassTransformer.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tesseract/dragonfly/asm/HookContainerParser.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tesseract/dragonfly/asm/HookInjectorClassVisitor.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tesseract/dragonfly/asm/HookInjectorFactory.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tesseract/dragonfly/asm/HookInjectorMethodVisitor.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tesseract/dragonfly/asm/HookLogger.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tesseract/dragonfly/asm/HookPriority.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tesseract/dragonfly/asm/MiscHelper.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tesseract/dragonfly/asm/NodeTransformer.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tesseract/dragonfly/asm/ReturnCondition.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tesseract/dragonfly/asm/ReturnValue.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tesseract/dragonfly/asm/SafeClassWriter.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tesseract/dragonfly/asm/TypeHelper.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/cn/tesseract/dragonfly/hook/CommandHook.java" charset="GBK" />
     <file url="PROJECT" charset="GBK" />
   </component>
 </project>

@@ -26,7 +26,6 @@ import com.corrodinggames.rts.ally.gameFramework.j.class_1101;
 import com.corrodinggames.rts.ally.gameFramework.m.class_1224;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,7 +94,7 @@ public class CommonHook {
         return t == -3 ? "S" : String.valueOf(t + 1);
     }
 
-    static MethodAccessor _a = new MethodAccessor(class_1002.class, "a", int.class, int.class, int.class, String.class, String.class, Paint.class, float.class);
+    static MethodAccessor class_1002_a = new MethodAccessor(class_1002.class, "a", int.class, int.class, int.class, String.class, String.class, Paint.class, float.class);
 
     @Hook(returnCondition = ReturnCondition.ALWAYS)
     public static void f(class_1002 c, float var1) {
@@ -176,13 +175,13 @@ public class CommonHook {
                         if (var13.b < 50.0F) {
                             var2 = var13.b / 50.0F;
                             c.i.setColor(Color.argb((int) (150.0F + 40.0F * var2), 0, 200, 0));
-                            _a.invoke(c, var4, var6, height, "Select Group", "(Hold for more..)", c.i, var2);
+                            class_1002_a.invoke(c, var4, var6, height, "Select Group", "(Hold for more..)", c.i, var2);
                         } else if (var13.b < 100.0F) {
                             var2 = (var13.b - 50.0F) / 50.0F;
                             c.i.setColor(Color.argb((int) (150.0F + 40.0F * var2), 200, 0, 0));
-                            _a.invoke(c, var4, var6, height, "Add to Group", "(Hold for more..)", c.i, var2);
+                            class_1002_a.invoke(c, var4, var6, height, "Add to Group", "(Hold for more..)", c.i, var2);
                         } else {
-                            _a.invoke(c, var4, var6, height, "Replace Group", "", c.i, 0.0F);
+                            class_1002_a.invoke(c, var4, var6, height, "Replace Group", "", c.i, 0.0F);
                             var2 = 1.0F;
                         }
 

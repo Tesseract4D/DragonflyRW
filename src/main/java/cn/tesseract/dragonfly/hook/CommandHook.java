@@ -42,6 +42,12 @@ public class CommandHook {
                 RWHelper.sendSysMessage("收入倍率已设为 " + n + " ！");
             }
         });
+        commands.put("sync", new CommandBase(0, true, "立刻同步") {
+            @Override
+            public void processCommand(class_315 sender, String[] args) {
+                RWHelper.sync();
+            }
+        });
     }
 
     @Hook

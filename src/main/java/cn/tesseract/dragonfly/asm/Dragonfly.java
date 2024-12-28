@@ -47,7 +47,7 @@ public class Dragonfly {
         ZipEntry entry;
         while ((entry = oldJar.getNextEntry()) != null) {
             String name = entry.getName();
-            if (existingEntries.contains(name) || name.startsWith("cn/tesseract/dragonfly/asm")) {
+            if (existingEntries.contains(name) || name.startsWith("cn/tesseract/dragonfly/asm")|| name.startsWith("org")) {
                 continue;
             }
             existingEntries.add(name);
